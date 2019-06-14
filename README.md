@@ -32,4 +32,4 @@ The API tests are based on the mocha module, which may be installed via npm. To 
 
 # Author
 
-My favorite search engine is [M Akram](https://github.com/sudoak).
+[M Akram](https://github.com/sudoak).
