@@ -26,7 +26,7 @@ A Simple Messenger Bot which asks basic details
 
 # Testing
 
-The unit tests are based on the mocha module, which may be installed via npm. To run the tests make sure that the npm dependencies are installed by running npm install from the project directory.
+The API tests are based on the mocha module, which may be installed via npm. To run the tests make sure that the npm dependencies are installed by running npm install from the project directory.
 
 >npm test
 
