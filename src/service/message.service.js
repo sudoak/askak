@@ -67,7 +67,10 @@ const message = () => {
 
   getAllMessages = async (req, res) => {
     try {
-      const allMessages = await MESSAGE_MODAL.find({}, { _id: 0, __v: 0 });
+      const allMessages = await MESSAGE_MODAL.find(
+        {},
+        { _id: 0, __v: 0 }
+      ).lean();
       res.json({ error: false, info: null, data: allMessages });
     } catch (e) {
       res.json({ error: true, info: e, data: [] });
@@ -81,13 +84,14 @@ const message = () => {
         const message = await MESSAGE_MODAL.findOne({ id }, { _id: 0, __v: 0 });
         if (!isEmpty(message)) {
           res.json({ error: false, info: null, data: message });
+          return;
         }
         throw new Error("No Message Related to this Id");
       } else {
         throw new Error("Please Send Message Id");
       }
     } catch (e) {
-      res.json({ error: true, info: e, data: [] });
+      res.json({ error: true, info: e, data: {} });
     }
   };
 
@@ -96,19 +100,20 @@ const message = () => {
       const id = req.params.id;
       if (id) {
         const deletedMessage = await MESSAGE_MODAL.deleteOne({ id });
-        if (!isEmpty(message)) {
+        if (!isEmpty(deletedMessage)) {
           res.json({
             error: false,
             info: null,
             data: { message: "Successfully Deleted" }
           });
+          return;
         }
         throw new Error("No Message Related to this Id");
       } else {
         throw new Error("Please Send Message Id For Deletion");
       }
     } catch (e) {
-      res.json({ error: true, info: e, data: [] });
+      res.json({ error: true, info: e, data: {} });
     }
   };
   return {
