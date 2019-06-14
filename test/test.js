@@ -13,6 +13,16 @@ const expect = require("chai").expect;
 chai.use(chaiHttp);
 
 describe("API TEST", () => {
+  let messages = [];
+  before(done => {
+    MESSAGE.find()
+      .lean()
+      .then(data => {
+        messages = data;
+        done();
+      });
+  });
+
   it("it should GET all the messages", done => {
     chai
       .request(server)
@@ -24,7 +34,7 @@ describe("API TEST", () => {
       });
   });
   it("it should GET single message by ID", done => {
-    const testId = "u_2SyXvVA";
+    const testId = messages[Math.floor(Math.random() * Math.floor(5))].id;
 
     chai
       .request(server)
@@ -37,7 +47,7 @@ describe("API TEST", () => {
       });
   });
   it("it should DELETE single message by ID", done => {
-    const testId = "u_2SyXvVA";
+    const testId = messages[Math.floor(Math.random() * Math.floor(5))].id;
     chai
       .request(server)
       .delete(`/messages/${testId}`)
