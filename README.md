@@ -8,6 +8,7 @@ A Simple Messenger Bot which asks basic details
 - Nodejs
 - [Dialogflow account](https://dialogflow.com/) (DIALOGFLOW_PRIVATE_KEY, DIALOGFLOW_CLIENT_EMAIL)
 - [Mlab](https://mlab.com/) (MONGO_URL)
+- Push the code to server and have https end point (ex : https://askak.herokuapp.com/webhooks)
 - Facebook Developers Account (FACEBOOK_ACCESS_TOKEN)
 - Refer [node-config](https://github.com/lorenwest/node-config) to store keys 
 
@@ -15,7 +16,6 @@ A Simple Messenger Bot which asks basic details
 
 - Clone Repo
 - npm install
-- Push the code to server and have https end point (ex : https://askak.herokuapp.com/webhooks)
 - Setup Account in Facebook Developers by creating facebook page and app
 
 # Example
