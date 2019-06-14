@@ -18,15 +18,10 @@ const message = () => {
     return;
   };
 
-  getDayRemaining = async id => {
+  getDayRemaining = async (id,date) => {
     try {
-      const data = await MESSAGE_MODAL.find({ userId: id })
-        .sort({
-          date_time: -1
-        })
-        .limit(2);
-      if (data.length === 2 && isDate(new Date(data[1].message))) {
-        const birthdate = moment(data[1].message).format("YYYY-MM-DD");
+      
+        const birthdate = moment(date, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
 
         const today = moment().format("YYYY-MM-DD");
 
@@ -43,9 +38,9 @@ const message = () => {
         const daysUntilBirthday = nextBirthday.diff(today, "days");
 
         return daysUntilBirthday;
-      }
+      
 
-      return "NaN";
+      
     } catch (e) {
       return "NaN";
     }

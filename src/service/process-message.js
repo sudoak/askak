@@ -66,16 +66,21 @@ module.exports = event => {
   sessionClient
     .detectIntent(request)
     .then(async responses => {
-      const result = responses[0].queryResult;
-      if (result.action === "input.calc") {
-        const days = await messageService.getDayRemaining(userId);
+      const result = responses[0] && responses[0].queryResult;
+      if (!isEmpty(result)) {
+        if (result.action === "input.calc") {
+          const days = await messageService.getDayRemaining(
+            userId,
+            result.fulfillmentText
+          );
 
-        return sendTextMessage(
-          userId,
-          `There are ${days} days left until your birthday`
-        );
+          return sendTextMessage(
+            userId,
+            `There are ${days} days left until your birthday`
+          );
+        }
+        return sendTextMessage(userId, result.fulfillmentText);
       }
-      return sendTextMessage(userId, result.fulfillmentText);
     })
     .catch(err => {
       console.error("ERROR:", err);
