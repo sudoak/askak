@@ -4,10 +4,11 @@ let mongoose = require("mongoose");
 let MESSAGE = require("../src/modal/messages.modal.js");
 
 //Require the dev-dependencies
-let chai = require("chai");
-let chaiHttp = require("chai-http");
-let server = require("../src/index.js");
-let should = chai.should();
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const server = require("../src/index.js");
+const should = chai.should();
+const expect = require("chai").expect;
 
 chai.use(chaiHttp);
 
@@ -24,12 +25,14 @@ describe("API TEST", () => {
   });
   it("it should GET single message by ID", done => {
     const testId = "u_2SyXvVA";
+
     chai
       .request(server)
       .get(`/messages/${testId}`)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.be.a("object");
+        expect(res.body.error).to.be.false;
         done();
       });
   });
@@ -41,6 +44,7 @@ describe("API TEST", () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.be.a("object");
+        expect(res.body.error).to.be.false;
         done();
       });
   });

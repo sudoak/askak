@@ -18,29 +18,21 @@ const message = () => {
     return;
   };
 
-  getDayRemaining = async (id,date) => {
+  getDayRemaining = async (id, date) => {
     try {
-      
-        const birthdate = moment(date, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+      const birthdate = moment(date, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
 
-        const today = moment().format("YYYY-MM-DD");
+      const today = moment().format("YYYY-MM-DD");
 
-        const years = moment().diff(birthdate, "years");
+      const years = moment().diff(birthdate, "years");
 
-        const adjustToday =
-          birthdate.substring(5) === today.substring(5) ? 0 : 1;
+      const adjustToday = birthdate.substring(5) === today.substring(5) ? 0 : 1;
 
-        const nextBirthday = moment(birthdate).add(
-          years + adjustToday,
-          "years"
-        );
+      const nextBirthday = moment(birthdate).add(years + adjustToday, "years");
 
-        const daysUntilBirthday = nextBirthday.diff(today, "days");
+      const daysUntilBirthday = nextBirthday.diff(today, "days");
 
-        return daysUntilBirthday;
-      
-
-      
+      return daysUntilBirthday;
     } catch (e) {
       return "NaN";
     }
@@ -68,7 +60,11 @@ const message = () => {
       ).lean();
       res.json({ error: false, info: null, data: allMessages });
     } catch (e) {
-      res.json({ error: true, info: e, data: [] });
+      if (e.name === "Error") {
+        res.status(404).json({ error: true, info: e, data: [] });
+        return;
+      }
+      res.status(500).json({ error: true, info: e, data: [] });
     }
   };
 
@@ -86,7 +82,11 @@ const message = () => {
         throw new Error("Please Send Message Id");
       }
     } catch (e) {
-      res.json({ error: true, info: e, data: {} });
+      if (e.name === "Error") {
+        res.status(404).json({ error: true, info: e, data: {} });
+        return;
+      }
+      res.status(500).json({ error: true, info: e, data: {} });
     }
   };
 
@@ -95,7 +95,8 @@ const message = () => {
       const id = req.params.id;
       if (id) {
         const deletedMessage = await MESSAGE_MODAL.deleteOne({ id });
-        if (!isEmpty(deletedMessage)) {
+
+        if (deletedMessage.deletedCount !== 0) {
           res.json({
             error: false,
             info: null,
@@ -108,7 +109,11 @@ const message = () => {
         throw new Error("Please Send Message Id For Deletion");
       }
     } catch (e) {
-      res.json({ error: true, info: e, data: {} });
+      if (e.name === "Error") {
+        res.status(404).json({ error: true, info: e, data: {} });
+        return;
+      }
+      res.status(500).json({ error: true, info: e, data: {} });
     }
   };
   return {
