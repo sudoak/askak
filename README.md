@@ -2,9 +2,9 @@
 
 A Simple Messenger Bot which asks basic details
 
-#Demo
+# Demo
 
-[Ask Me Messenger](m.me/594258434394925)
+[Ask Me Messenger](https://www.messenger.com/t/594258434394925)
 
 # Requirements
 
