@@ -9,6 +9,7 @@ A Simple Messenger Bot which asks basic details
 - [Dialogflow account](https://dialogflow.com/) (DIALOGFLOW_PRIVATE_KEY, DIALOGFLOW_CLIENT_EMAIL)
 - [Mlab](https://mlab.com/) (MONGO_URL)
 - Facebook Developers Account (FACEBOOK_ACCESS_TOKEN)
+- Refer [node-config](https://github.com/lorenwest/node-config) to store keys 
 
 # Installation Steps (if applicable)
 
