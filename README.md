@@ -26,6 +26,11 @@ A Simple Messenger Bot which asks basic details
 
 ![Example!](/src/public/images/ex.png "Example")
 
+# API End Points
+
+- (List All Messages - GET )[https://askak.herokuapp.com/messages]
+- (Get Message By id - GET )[https://askak.herokuapp.com/messages/Oh4-VcLNB]
+- (Delete Message By Id - DELETE)[https://askak.herokuapp.com/messages/Oh4-VcLNB]
 
 # Testing
 

@@ -1,5 +1,5 @@
 const messageService = require("./message.service")();
-const { isDate } = require("lodash");
+const { isDate, isEmpty } = require("lodash");
 const fetch = require("node-fetch");
 const config = require("config");
 
@@ -46,43 +46,41 @@ const sendTextMessage = (userId, text) => {
   );
 };
 
-module.exports = event => {
-  const userId = event.sender.id;
-  const message = event.message.text;
-  messageService.createMessage({
-    userId,
-    message
-  });
-  const request = {
-    session: sessionPath,
-    queryInput: {
-      text: {
-        text: message,
-        languageCode: languageCode
+module.exports = async event => {
+  try {
+    const userId = event.sender.id;
+    const message = event.message.text;
+    await messageService.createMessage({
+      userId,
+      message
+    });
+    const request = {
+      session: sessionPath,
+      queryInput: {
+        text: {
+          text: message,
+          languageCode: languageCode
+        }
+      }
+    };
+
+    const responses = await sessionClient.detectIntent(request);
+    const result = responses[0] && responses[0].queryResult;
+    if (!isEmpty(result)) {
+      if (result.action === "input.calc") {
+        const days = await messageService.getDayRemaining(
+          userId,
+          result.fulfillmentText
+        );
+
+        return sendTextMessage(
+          userId,
+          `There are ${days} days left until your birthday`
+        );
       }
     }
-  };
-
-  sessionClient
-    .detectIntent(request)
-    .then(async responses => {
-      const result = responses[0] && responses[0].queryResult;
-      if (!isEmpty(result)) {
-        if (result.action === "input.calc") {
-          const days = await messageService.getDayRemaining(
-            userId,
-            result.fulfillmentText
-          );
-
-          return sendTextMessage(
-            userId,
-            `There are ${days} days left until your birthday`
-          );
-        }
-        return sendTextMessage(userId, result.fulfillmentText);
-      }
-    })
-    .catch(err => {
-      console.error("ERROR:", err);
-    });
+    return sendTextMessage(userId, result.fulfillmentText);
+  } catch (e) {
+    console.error(e);
+  }
 };
