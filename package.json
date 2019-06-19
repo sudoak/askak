@@ -4,7 +4,7 @@
   "description": "Simple Messenger Chat Bot",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000",
+    "test": "./node_modules/.bin/mocha --timeout 10000 --exit",
     "start": "nodemon ./src/index.js"
   },
   "keywords": [],
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "chai-http": "^4.3.0"
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4"
   }
 }
